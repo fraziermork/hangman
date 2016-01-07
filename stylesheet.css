@@ -1,0 +1,14 @@
+.letterHolder{
+  border-radius: 5px;
+  height: 40px;
+  width: 40px;
+  border: 1px blue solid;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.letter{
+  font-size: 1.2em;
+  text-align: center;
+
+}
