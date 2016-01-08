@@ -10,7 +10,22 @@ for (i=0; i < letterList[1].length; i++ ){
   $('#botRow').append('<div class="letterHolder" id=' + letterList[1][i] + '><p class="letter">'+ letterList[1][i] +'</p></div>');
 }
 
+// $('.letterHolder').on('click', myFunction);
+//
+// function myFunction(e){
+//   console.log("I'm sorry Dave.");
+//   console.dir(e);
+//   console.log(e.target.id);
+// }
 
+$('#testDiv').click(function(){
+  $.ajax({url: "test.txt", success: function(placeHolder){
+    $("#testDiv").html(placeHolder);
+
+  }})
+
+
+});
 
 
 
