@@ -29,11 +29,11 @@ function play() {
 		console.log(myWordArray);
 
 		//make divs for letters to go in
-		for(i = 0; i < myWordArray.length; i++){
-			newID = "letter" + i.toString();
-			$("#wordDisplay").append("<div class='letterHolder' id ="+ newID +"></div>");
+		for(var i = 0; i < myWordArray.length; i++){
+			var newClass = "letter" + i.toString();
+			$("#wordDisplay").append("<div class='letterHolder " + newClass +"'></div>");
 			divcount++;
-			console.log(newID);
+			console.log(newClass);
 			//"<div class='letterDisplay' id='letter'+"divcount "></div>")
 		}
 
@@ -68,9 +68,19 @@ function play() {
     }
     if (guessedFlag === false){
       guessedLetters.push(currentLetter);
+      for (var i = 0; i < myWordArray.length; i++){
+        if( currentLetter === myWordArray [i]){
+          $('.letter' + i.toString()).textContent = currentLetter;
+        }
+      }
+
+
     }
     console.log(guessedFlag);
     console.log('checking letter ' + this.id);
+
+
+
   }
 
 
