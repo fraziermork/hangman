@@ -13,8 +13,29 @@
 
 }
 
-#testDiv{
+.correct{
+  background-color: green;
+
+}
+
+.incorrect{
+  background-color: red;
+
+}
+
+.guessed{
+  background-color: red;
+}
+
+#wordDisplay {
+  border-radius: 5px;
+	height: 72px;
+	border: 1px black solid;
+
+}
+
+/*#testDiv{
   height: 100px;
   border: 1px black solid;
 
-}
+}*/
