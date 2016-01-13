@@ -7,19 +7,27 @@
     <script type="text/javascript" src="hangman.js"></script>
     <link rel="stylesheet" type="text/css" href="stylesheet.css"/>
   </head>
+
   <body>
-    <div id='wordHolder'>
+
+    <div id="wordHolder" class="wordHolder">
       <h1>Guess this word:</h1>
-      <div id='wordDisplay'></div>
+      <div id="wordDisplay" class="wordDisplay"></div>
+
+      <div class = "hangmanSpriteHolder">
+        <img src="hangman.png" id="hangmanSprite" class="hangmanSprite"/>
+      </div>
     </div>
 
-    <div id='letterChoiceHolder'>
-      <div id='topRow'></div>
-      <div id='botRow'></div>
+    <br/>
+
+    <div id="letterChoiceHolder">
+      <div id="topRow"></div>
+      <div id="botRow"></div>
     </div>
 
-    <div id='testDiv'></div>
-    <button>Test this stuff</button>
+    <!-- <div id='testDiv'></div>
+    <button>Test this stuff</button> -->
 
   </body>
 </html>
