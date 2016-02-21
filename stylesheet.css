@@ -1,3 +1,38 @@
+.game-holder{
+  position: relative;
+  height: 780px;
+}
+
+.temple-background{
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  left: 0;
+}
+.temple-building{
+  position: absolute;
+  z-index: 3;
+  top: 0;
+  left: 0;
+}
+.sprite-div{
+  overflow: hidden;
+  background-repeat: no-repeat;
+  position: absolute;
+}
+
+#ninja-sprite{
+  z-index: 1;
+  background-image: url('img/ninjaspritesheet.png');
+  width: 135px;
+  height: 325px;
+  background-position: -1215px 0px;
+  left: 460px;
+  top: 240px;
+}
+
+
+
 .letterHolder{
   border-radius: 5px;
   height: 40px;

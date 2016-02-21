@@ -13,11 +13,7 @@ var maxGuesses = 10;
 var divcount = 0;
 var spriteIncrement = 315;
 
-
-
-
 function play() {
-		//clear garbage from previous runs
 		myReset();
 
     //set up the keyboard
@@ -58,6 +54,7 @@ function play() {
     $('.clickable').on('click', checkLetter);
 	};
 
+
   //reset the initial conditions to play again
   function myReset(){
     $('clickable').off('click', checkLetter);
@@ -76,8 +73,7 @@ function play() {
   function checkLetter(){
     //currentLetter is placeholder for the id of the letter the user guessed
     currentLetter = this.id;
-    $(this).addClass('guessed');
-    $(this).removeClass('clickable');
+    $(this).addClass('guessed').removeClass('clickable');
 
     //check to see whether the user has guessed that letter before
     var guessedFlag = false;
@@ -121,14 +117,21 @@ function play() {
     }
   }
 
-
-
   //runs game at page open
 	play();
 
 
+	function spriteTest (){
+		$('#ninja-sprite').css('background-position', function(){
+			
+		})
+
+	};
+
 });
 
-
-
-//bug-- once play is called again, it regenerates the keyboard, but the keyboard can't be interacted with anymore, possibly because those keys weren't there at page load?
+//TODO: add background art
+//TODO: switch to spritesheet from buttons
+//TODO: put in correct ninja spritesheet
+//TODO: switch to using the lanterns up top
+//TODO: switch to
