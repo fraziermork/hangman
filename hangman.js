@@ -13,24 +13,30 @@ var maxGuesses = 10;
 var divcount = 0;
 var spriteIncrement = 135;
 
+function buildLetters(){
+	var $topLetterRow = $('#top-letter-row');
+	var $bottomLetterRow = $('#bottom-letter-row');
+	for (i=0; i < letterList[1].length; i++ ){
+		// $topRow.append('<div class="letterHolder clickable" id="' + letterList[0][i] + '"><p class="letter">'+ letterList[0][i] +'</p></div>');
+		$topLetterRow.append('<div class="sprite-letter sprite-div clickable" id="' + letterList[0][i] + '" data-letter="' + letterList[0][i] +'"></div>');
+		$('#' + letterList[0][i]).css('background-position', '-' + (i * 120).toString() + 'px 0px').css('left', (i * 60).toString() + 'px');
+		// $botRow.append('<div class="letterHolder clickable" id=' + letterList[1][i] + '><p class="letter">'+ letterList[1][i] +'</p></div>');
+		$bottomLetterRow.append('<div class="sprite-letter sprite-div clickable" id="' + letterList[1][i] + '" data-letter="' + letterList[1][i] +'"></div>');
+		$('#' + letterList[1][i]).css('background-position', '-' + (i * 120).toString() + 'px -60px').css('left', (i * 60).toString() + 'px');
+	}
+}
+
 function play() {
 		myReset();
 
     //set up the keyboard
-		var $topRow = $('#topRow');
-		var $topLetterRow = $('#top-letter-row');
-		var $botRow = $('#botRow');
-		var $bottomLetterRow = $('#bottom-letter-row');
+		// var $topRow = $('#topRow');
+		//
+		// var $botRow = $('#botRow');
+
 		var $ninjaSprite = $('#ninja-sprite');
 		var $gate = $('.gate');
-    for (i=0; i < letterList[1].length; i++ ){
-      // $topRow.append('<div class="letterHolder clickable" id="' + letterList[0][i] + '"><p class="letter">'+ letterList[0][i] +'</p></div>');
-			$topLetterRow.append('<div class="sprite-letter sprite-div clickable" id="' + letterList[0][i] + '" data-letter="' + letterList[0][i] +'"></div>');
-			$('#' + letterList[0][i]).css('background-position', '-' + (i * 120).toString() + 'px 0px').css('left', (i * 60).toString() + 'px');
-      // $botRow.append('<div class="letterHolder clickable" id=' + letterList[1][i] + '><p class="letter">'+ letterList[1][i] +'</p></div>');
-			$bottomLetterRow.append('<div class="sprite-letter sprite-div clickable" id="' + letterList[1][i] + '" data-letter="' + letterList[1][i] +'"></div>');
-			$('#' + letterList[1][i]).css('background-position', '-' + (i * 120).toString() + 'px -60px').css('left', (i * 60).toString() + 'px');
-    }
+
 
     //initialize word to use, separate letters into an array
 		myWord = wordList[Math.floor(Math.random()*wordList.length)];
@@ -49,7 +55,7 @@ function play() {
 
 			var newClass = "letter" + myWordArray[i];
 			$wordDisplay.append("<div class='letterHolder " + newClass +"'></div>");
-			$lanternHolder.append('<div class="sprite-div" id="lantern-flicker' + i + '"></div>')
+			$lanternHolder.append('<div class="sprite-div lantern-flicker' + myWordArray[i] + '" id="lantern-flicker' + i + '"></div>')
 			$lanternHolder.append('<div class="lantern sprite-div ' + newClass + '" id="lantern' + i + '"><p class="lantern-letter">' + myWordArray[i] + '</p></div>');
 			$('#lantern-flicker' + i).css('left', (startX -6 + (i*100)).toString() + 'px');
 			$('#lantern' + i).css('left', (startX + 11 + (i*100)).toString() + 'px');
@@ -94,6 +100,9 @@ function play() {
 		$('.gate').css('top', '0px');
     // $('#topRow, #botRow, #wordDisplay').empty();
     console.log('position reset to zero');
+		$('#top-letter-row').empty();
+		$('#bottom-letter-row').empty();
+		buildLetters();
   }
 
 
@@ -125,10 +134,10 @@ function play() {
       for (var i = 0; i < lettersArray.length; i++){
         if( currentLetter === lettersArray[i]){
           correctFlag = true;
-					$('.gate').css('top', '+=20px')
+					$('.gate').css('top', '+=20px');
           console.log('The class to write to is .letter' + currentLetter);
 					$('.letter' + currentLetter).css('background-position', '0px 0px').find('.lantern-letter').css('display', 'block');
-					// $('#lantern-flicker' + currentLetter).addClass('lantern-flicker')
+					$('.lantern-flicker' + currentLetter).addClass('lantern-flicker')
           // $('.letter' + currentLetter).append('<p class="letter">' + currentLetter + '</p>');
           lettersArray.splice(i,1);
         }
@@ -166,4 +175,4 @@ function play() {
 
 
 //TODO: figure out how to make each one flicker independently, probably base is center and goes to either side at random intervals before flickering back
-//TODO: letters super fucked up after redraw
+//TODO: prevent letters from being reclicked
