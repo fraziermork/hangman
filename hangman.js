@@ -11,15 +11,25 @@ var guess;
 var numWrongGuesses = 0;
 var maxGuesses = 10;
 var divcount = 0;
-var spriteIncrement = 315;
+var spriteIncrement = 135;
 
 function play() {
 		myReset();
 
     //set up the keyboard
+		var $topRow = $('#topRow');
+		var $topLetterRow = $('#top-letter-row');
+		var $botRow = $('#botRow');
+		var $bottomLetterRow = $('#bottom-letter-row');
+		var $ninjaSprite = $('#ninja-sprite');
+		var $gate = $('.gate');
     for (i=0; i < letterList[1].length; i++ ){
-      $('#topRow').append('<div class="letterHolder clickable" id=' + letterList[0][i] + '><p class="letter">'+ letterList[0][i] +'</p></div>');
-      $('#botRow').append('<div class="letterHolder clickable" id=' + letterList[1][i] + '><p class="letter">'+ letterList[1][i] +'</p></div>');
+      // $topRow.append('<div class="letterHolder clickable" id="' + letterList[0][i] + '"><p class="letter">'+ letterList[0][i] +'</p></div>');
+			$topLetterRow.append('<div class="sprite-letter sprite-div clickable" id="' + letterList[0][i] + '" data-letter="' + letterList[0][i] +'"></div>');
+			$('#' + letterList[0][i]).css('background-position', '-' + (i * 120).toString() + 'px 0px').css('left', (i * 60).toString() + 'px');
+      // $botRow.append('<div class="letterHolder clickable" id=' + letterList[1][i] + '><p class="letter">'+ letterList[1][i] +'</p></div>');
+			$bottomLetterRow.append('<div class="sprite-letter sprite-div clickable" id="' + letterList[1][i] + '" data-letter="' + letterList[1][i] +'"></div>');
+			$('#' + letterList[1][i]).css('background-position', '-' + (i * 120).toString() + 'px -60px').css('left', (i * 60).toString() + 'px');
     }
 
     //initialize word to use, separate letters into an array
@@ -29,10 +39,20 @@ function play() {
 		};
     console.log(myWordArray);
 
+
+		$wordDisplay = $("#wordDisplay");
+		$lanternHolder = $('#lantern-holder');
+		var startX = (866 - (myWordArray.length * 98))/2;
+		console.log('startX is ' + startX);
 		//make divs for letters to go in
 		for(var i = 0; i < myWordArray.length; i++){
+
 			var newClass = "letter" + myWordArray[i];
-			$("#wordDisplay").append("<div class='letterHolder " + newClass +"'></div>");
+			$wordDisplay.append("<div class='letterHolder " + newClass +"'></div>");
+			$lanternHolder.append('<div class="sprite-div" id="lantern-flicker' + i + '"></div>')
+			$lanternHolder.append('<div class="lantern sprite-div ' + newClass + '" id="lantern' + i + '"><p class="lantern-letter">' + myWordArray[i] + '</p></div>');
+			$('#lantern-flicker' + i).css('left', (startX -6 + (i*100)).toString() + 'px');
+			$('#lantern' + i).css('left', (startX + 11 + (i*100)).toString() + 'px');
 			divcount++;
 			console.log(newClass);
       //set up lettersArray
@@ -57,23 +77,37 @@ function play() {
 
   //reset the initial conditions to play again
   function myReset(){
+		$('#lantern-holder').empty();
+		$('.guessed').removeClass('guessed').addClass('clickable').css('background-position', function(){
+			var backgndPos = $(this).css('background-position').split(' ').map(function(current){
+				return +current.replace('px', '');
+			});
+			return (backgndPos[0] + 60).toString() + 'px ' + backgndPos[1].toString() +'px';
+		});
     $('clickable').off('click', checkLetter);
     guessedLetters = [];
     myWordArray = [];
     numWrongGuesses = 0;
     lettersArray = [];
     divcount = 0;
-    $('#hangmanSprite').css('left', '0px');
-    $('#topRow, #botRow, #wordDisplay').empty();
+    $('#ninja-sprite').css('background-position', '0px 0px');
+		$('.gate').css('top', '0px');
+    // $('#topRow, #botRow, #wordDisplay').empty();
     console.log('position reset to zero');
   }
 
 
   //check to see if a letter is correct
-  function checkLetter(){
+  function checkLetter() {
     //currentLetter is placeholder for the id of the letter the user guessed
-    currentLetter = this.id;
-    $(this).addClass('guessed').removeClass('clickable');
+    var currentLetter = $(this).data('letter');
+		console.log(currentLetter);
+    $(this).addClass('guessed').removeClass('clickable').css('background-position', function(){
+			var backgndPos = $(this).css('background-position').split(' ').map(function(current){
+				return +current.replace('px', '');
+			});
+			return (backgndPos[0] - 60).toString() + 'px ' + backgndPos[1].toString() +'px';
+		});
 
     //check to see whether the user has guessed that letter before
     var guessedFlag = false;
@@ -91,26 +125,34 @@ function play() {
       for (var i = 0; i < lettersArray.length; i++){
         if( currentLetter === lettersArray[i]){
           correctFlag = true;
+					$('.gate').css('top', '+=20px')
           console.log('The class to write to is .letter' + currentLetter);
-          $('.letter' + currentLetter).append('<p class="letter">' + currentLetter + '</p>');
+					$('.letter' + currentLetter).css('background-position', '0px 0px').find('.lantern-letter').css('display', 'block');
+					// $('#lantern-flicker' + currentLetter).addClass('lantern-flicker')
+          // $('.letter' + currentLetter).append('<p class="letter">' + currentLetter + '</p>');
           lettersArray.splice(i,1);
         }
       }
       //if letter is wrong
       if (correctFlag === false){
         numWrongGuesses++;
-        $('#hangmanSprite').css('left', -numWrongGuesses * spriteIncrement + 'px');
+
+        $('#ninja-sprite').css('background-position', function(){
+				return -numWrongGuesses * spriteIncrement + 'px 0px'
+			});
         console.log('position increments');
       }
 
       //win condition
       if(lettersArray.length === 0){
+				$('.gate').css('top', '220px');
         if(confirm('You win! Play again?')){
           play();
         }
       //loss condition
       } else if (numWrongGuesses === maxGuesses){
-        if (confirm('You lose! Play again?')){
+
+        if (confirm('You lose! The word was ' + myWord + '. Play again?')){
           play();
         }
       }
@@ -120,18 +162,8 @@ function play() {
   //runs game at page open
 	play();
 
-
-	function spriteTest (){
-		$('#ninja-sprite').css('background-position', function(){
-			
-		})
-
-	};
-
 });
 
-//TODO: add background art
-//TODO: switch to spritesheet from buttons
-//TODO: put in correct ninja spritesheet
-//TODO: switch to using the lanterns up top
-//TODO: switch to
+
+//TODO: figure out how to make each one flicker independently, probably base is center and goes to either side at random intervals before flickering back
+//TODO: letters super fucked up after redraw
