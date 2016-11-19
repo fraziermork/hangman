@@ -1,6 +1,3 @@
 # hangman
 
-
-with spritesheet and keyboard
-
-# Frazier is totally THE MAN
+Basic hangman game built with image assets. 
