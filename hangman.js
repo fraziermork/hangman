@@ -18,8 +18,10 @@ const app = {
     })(), 
     
       // Data only relevant for drawing to the page 
-    spriteIncrement:    135, 
-    answerLetterListId: '#answer-letter-list', 
+    spriteIncrement:             135, 
+    answerOptionSpriteIncrement: 120, 
+    answerOptionsLetterHeight:   60,
+    answerLetterListId:          '#answer-letter-list', 
     
     // Classes to be applied to letters in the answer options keyboard to show whether they were correct or wrong
     // Using 'wrong' instead of 'incorrect' for readability
@@ -76,9 +78,11 @@ const app = {
      */     
     function handleLetterClick(event) {
       console.log('handleLetterClick ', event.target.dataset.letter, event);
-      if (event.target.dataset.letter) {
-        _checkAnswer(event.target.dataset.letter);
-      }
+      
+      // Break out if ul clicked, not an li 
+      if (!event.target.dataset.letter) return;
+      
+      _checkAnswer(event.target.dataset.letter);
     }
     
     
@@ -122,6 +126,7 @@ const app = {
       return app.gameState;
     }
     
+    
     /**    
      * _generateWordToGuess - Chooses a word at random for the user to guess that they haven't already been asked to guess. 
      *      
@@ -132,6 +137,7 @@ const app = {
       let wordToGuess = _generateRandomValue(app.data.possibleWordsToGuess, app.gameState.wordsAlreadyGuessed);
       return wordToGuess;
     }
+    
     
     /**    
      * _generateRandomValue - Generates a random value from an array, and optionally prevents a selection of a value already in arrayToCheckForDuplicates.     
@@ -162,15 +168,23 @@ const app = {
     function _drawAnswerOptionLetters() {
       console.log('_drawAnswerOptionLetters');
       const $answerLetterList = $(app.data.answerLetterListId);
+      console.log($answerLetterList);
       $answerLetterList.empty();
-      app.data.letterList.forEach((letter) => {
-        $(`<div class="sprite sprite-letter is-clickable" data-letter="${letter}"></div>`)
-          .appendTo($answerLetterList);
-          
-          // TODO: style these so that they draw into the correct position 
-          // .style();
+      
+      console.log('app.data.letterList.length: ', app.data.letterList.length);
+      
+      app.data.letterList.forEach((letter, i) => {
+        let xPxOffset = -i * app.data.answerOptionSpriteIncrement;
+        let yPxOffset = app.data.answerOptionsLetterHeight * Math.floor(i / (app.data.letterList.length / 2));
+        
+        // Create 
+        $(`<li class="sprite sprite-letter is-clickable" data-letter="${letter}"></li>`)
+          .appendTo($answerLetterList)  
+          .css('background-position', `${xPxOffset}px ${yPxOffset}px`);
       });
     }
+    
+    
     
     function _drawWordToGuess() {
       console.log('_drawWordToGuess');
@@ -179,7 +193,7 @@ const app = {
       for (var i = 0; i < app.gameState.wordToGuess.length; i++) {
         $(`<li class="lantern sprite" data-index="${i}"></li>`)
           .appendTo($lanternHolder);
-          // .style();
+          // .css()
         app.gameState.wordToGuess[i];
       }
       
@@ -203,10 +217,12 @@ const app = {
         .removeClass('is-clickable')
         .addClass(app.data.answerClasses[answerClassKey]);
       
+      
+      
       // Also update the word to guess if they guessed one of the hidden letters 
       if (correctFlag) {
-        app.gameState.lettersInWordToGuess.indices.forEach(() => {
-          $();
+        app.gameState.lettersInWordToGuess[guessedLetter].indices.forEach((index) => {
+          console.log('index: ', index);
           
         });
       }
