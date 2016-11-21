@@ -190,7 +190,10 @@ const app = {
       console.log('_drawWordToGuess');
       const $lanternHolder = $('#lantern-holder');
       
-      for (var i = 0; i < app.gameState.wordToGuess.length; i++) {
+      for (let i = 0; i < app.gameState.wordToGuess.length; i++) {
+        let xOffset = 0;
+        let yOffset = 0;
+        
         $(`<li class="lantern sprite" data-index="${i}"></li>`)
           .appendTo($lanternHolder);
           // .css()
@@ -207,8 +210,8 @@ const app = {
     /**    
      * updateLetters - This adds classes as appropriate to the answer option letters and to the letters in the word being guessed 
      *      
-     * @param  {String} guessedLetter The letter that was guessed     
-     * @param  {Boolean} correctFlag  Whether the letter was a correct guess or not, defaults to wrong      
+     * @param  {String}   guessedLetter   The letter that was guessed     
+     * @param  {Boolean} [correctFlag]    Whether the letter was a correct guess or not, defaults to wrong      
      */     
     function updateLetters(guessedLetter, correctFlag) {
       let answerClassKey = correctFlag ? 'correct' : 'wrong';
@@ -221,8 +224,11 @@ const app = {
       
       // Also update the word to guess if they guessed one of the hidden letters 
       if (correctFlag) {
+        // Update the lanterns 
         app.gameState.lettersInWordToGuess[guessedLetter].indices.forEach((index) => {
           console.log('index: ', index);
+          
+          
           
         });
       }
