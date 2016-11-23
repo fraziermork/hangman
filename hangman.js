@@ -21,6 +21,8 @@ const app = {
     spriteIncrement:             135, 
     answerOptionSpriteIncrement: 120, 
     answerOptionsLetterHeight:   60,
+    lanternRodWidth:             866, 
+    lanternWidth:                98, 
     answerLetterListId:          '#answer-letter-list', 
     
     // Classes to be applied to letters in the answer options keyboard to show whether they were correct or wrong
@@ -78,6 +80,8 @@ const app = {
      */     
     function handleLetterClick(event) {
       console.log('handleLetterClick ', event.target.dataset.letter, event);
+      console.log('this: ', this);
+      
       
       // Break out if ul clicked, not an li 
       if (!event.target.dataset.letter) return;
@@ -190,6 +194,9 @@ const app = {
       console.log('_drawWordToGuess');
       const $lanternHolder = $('#lantern-holder');
       
+      
+      
+      
       for (let i = 0; i < app.gameState.wordToGuess.length; i++) {
         let xOffset = 0;
         let yOffset = 0;
@@ -208,18 +215,18 @@ const app = {
     
     
     /**    
-     * updateLetters - This adds classes as appropriate to the answer option letters and to the letters in the word being guessed 
+     * _updateLetters - This adds classes as appropriate to the answer option letters and to the letters in the word being guessed 
      *      
      * @param  {String}   guessedLetter   The letter that was guessed     
      * @param  {Boolean} [correctFlag]    Whether the letter was a correct guess or not, defaults to wrong      
      */     
-    function updateLetters(guessedLetter, correctFlag) {
-      let answerClassKey = correctFlag ? 'correct' : 'wrong';
+    function _updateLetters(guessedLetter, correctFlag) {
+      const $lanterns       = $('.lantern');
+      const answerClassKey = correctFlag ? 'correct' : 'wrong';
       
       $(`.sprite-letter.is-clickable[data-letter="${guessedLetter}"]`)
         .removeClass('is-clickable')
         .addClass(app.data.answerClasses[answerClassKey]);
-      
       
       
       // Also update the word to guess if they guessed one of the hidden letters 
@@ -227,8 +234,7 @@ const app = {
         // Update the lanterns 
         app.gameState.lettersInWordToGuess[guessedLetter].indices.forEach((index) => {
           console.log('index: ', index);
-          
-          
+          $lanterns.filter(`[data-index="${index}"]`).append(`<p class="lantern-letter">${guessedLetter}</p>`);
           
         });
       }
@@ -266,7 +272,7 @@ const app = {
     
     function _handleCorrectAnswer(guessedLetter) {
       console.log('_handleCorrectAnswer');
-      updateLetters(guessedLetter, true);
+      _updateLetters(guessedLetter, true);
       
       // Check and see if they won 
       let allLettersGuessed = Object.keys(app.gameState.lettersInWordToGuess)
@@ -285,7 +291,7 @@ const app = {
     function _handleWrongAnswer(guessedLetter) {
       console.log('_handleWrongAnswer');
       app.gameState.numWrongGuesses++;
-      updateLetters(guessedLetter, false);
+      _updateLetters(guessedLetter, false);
       
       // Check and see if they lost 
       if (app.gameState.numWrongGuesses === app.data.numGuessesAllowed) {
@@ -312,8 +318,8 @@ const app = {
 };
 
 
-app.controller.attachEventHandlers();
 app.controller.initialize();
+app.controller.attachEventHandlers();
 
 
 
