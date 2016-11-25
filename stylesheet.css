@@ -1,8 +1,10 @@
-.game-holder{
+.game-holder {
   position: relative;
-  height: 780px;
+  height:   768px;
+  width:    1024px;
+  background-image: url('./img/bkgd_n_steps.png');
 }
-.page-title{
+.page-title {
   z-index: 4;
   position: absolute;
   left: 312px;
@@ -10,19 +12,19 @@
 }
 
 
-.temple-background{
+.temple-background {
   position: absolute;
   z-index: 0;
   top: 0;
   left: 0;
 }
-.temple-building{
+.temple-building {
   position: absolute;
   z-index: 3;
   top: 0;
   left: 0;
 }
-.gate{
+.gate {
   z-index: 2;
   position: absolute;
   height:355px;
@@ -30,12 +32,12 @@
   left: 269px;
   top: 0px;
 }
-.sprite-div{
+.sprite-div {
   overflow: hidden;
   background-repeat: no-repeat;
   position: absolute;
 }
-#ninja-sprite{
+#ninja-sprite {
   z-index: 1;
   background-image: url('img/ninjaspritesheet.png');
   width: 135px;
@@ -44,33 +46,45 @@
   left: 460px;
   top: 240px;
 }
-.letter-row{
+.letter-row {
   position: relative;
 }
-#top-letter-row{
+#top-letter-row {
   top: 320px;
   left:122px;
 }
-#bottom-letter-row{
-  top: 385px;
-  left:122px;
+#bottom-letter-row {
+  top:  385px;
+  left: 122px;
 }
 
-.sprite-letter{
-  /*border: 1px red solid;*/
-  z-index: 5;
-  height: 60px;
-  width: 60px;
+.sprite-letter {
+  z-index:          5;
+  height:           60px;
+  width:            60px;
   background-image: url('img/alphabetspritesheet.png');
+  display:          inline-block;
+  background-clip:  border-box;
 }
 
-.hanging-rod{
+
+.answer-letter-list {
+  list-style-type: none;
+  padding:         0 122px;
+  position:        absolute;
+  top:             560px;
+  left:            0px;
+  z-index:         100;
+}
+
+
+.hanging-rod {
   position: absolute;
   z-index: 5;
   top: 100px;
   left: 79px;
 }
-.lantern-flicker{
+.lantern-flicker {
   top: -12px;
   z-index: 4;
   height:100px;
@@ -79,29 +93,33 @@
   background-position: -224px 0px;
   /*border: 1px red solid;*/
 }
-.lantern-holder{
+.lantern-holder {
   z-index: 5;
   position: relative;
   top:115px;
   left: 79px;
   width: 866px;
   height: 100px;
+  padding: 0;
+  list-style-type: none;
 }
-.lantern{
+.lantern {
   z-index: 5;
   height: 98px;
   width: 78px;
   background-image: url('img/lantern_sprite_sheets.png');
   background-position: -78px 0px;
+  position: absolute;
+  top: 0;
 }
-.lantern-letter{
+.lantern-letter {
   /*display: none;*/
   text-align: center;
   font-size: 30px;
   margin: 0px;
   margin-top: 20px;
 }
-.side-light-holder{
+.side-light-holder {
   z-index: 1;
   position: relative;
   width: 127px;
@@ -109,7 +127,7 @@
   margin: 0px;
   display: inline-block;
 }
-.side-light-flicker{
+.side-light-flicker {
   z-index: 2;
   position: absolute;
   top: 20px;
@@ -118,15 +136,15 @@
   width: 118px;
   background-image: url('img/pagoda_glow_sprite_sheet.png');
 }
-.side-light{
+.side-light {
   position: absolute;
   z-index: 5;
 }
-#left-light-holder{
+#left-light-holder {
   left: 20px;
   top: 320px;
 }
-#right-light-holder{
+#right-light-holder {
   left: 745px;
   top: 320px;
 }
@@ -138,7 +156,7 @@
 
 
 
-.letterHolder{
+.letterHolder {
   border-radius: 5px;
   height: 40px;
   width: 40px;
@@ -147,13 +165,13 @@
   vertical-align: top;
 }
 
-.letter{
+.letter {
   font-size: 1.2em;
   text-align: center;
   vertical-align: top;
 }
 
-.guessed{
+.guessed {
   /*background-color: #A8A8A8;*/
 }
 
@@ -163,20 +181,20 @@
   height: 60px;
 }
 
-.hangmanSpriteHolder{
+.hangmanSpriteHolder {
   overflow: hidden;
   height: 226px;
   width: 315px;
   position: relative;
 }
 
-#hangmanSprite{
+#hangmanSprite {
   top: 0px;
   left: 0px;
   position: absolute;
 }
 
-body{
+body {
   background-color: black;
 }
 

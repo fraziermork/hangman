@@ -193,18 +193,20 @@ const app = {
     function _drawWordToGuess() {
       console.log('_drawWordToGuess');
       const $lanternHolder = $('#lantern-holder');
+      $lanternHolder.empty();
       
-      
-      
+      // Pixels from the left side of the bar, equal to half of the white space to get even spacing on both sides
+      const startXPxOffset = (app.data.lanternRodWidth - (app.gameState.wordToGuess.length * app.data.lanternWidth)) / 2;
       
       for (let i = 0; i < app.gameState.wordToGuess.length; i++) {
-        let xOffset = 0;
-        let yOffset = 0;
+        let xPxOffset = startXPxOffset + app.data.lanternWidth * i;
+        // let yPxOffset = 0;
         
         $(`<li class="lantern sprite" data-index="${i}"></li>`)
-          .appendTo($lanternHolder);
-          // .css()
-        app.gameState.wordToGuess[i];
+          .appendTo($lanternHolder)
+          .css('left', `${xPxOffset}px`);
+          // .css('background-position', `${xPxOffset}px ${yPxOffset}px`);
+          
       }
       
       
@@ -226,7 +228,17 @@ const app = {
       
       $(`.sprite-letter.is-clickable[data-letter="${guessedLetter}"]`)
         .removeClass('is-clickable')
-        .addClass(app.data.answerClasses[answerClassKey]);
+        .addClass(app.data.answerClasses[answerClassKey])
+        .css('background-position', function() {
+          let currentBackgroundPosition = $(this).css('background-position');
+          let [currentXOffset, currentYOffset] = currentBackgroundPosition.replace(/px/g, '').split(' ');
+          console.log('currentXOffset: ', currentXOffset);
+          console.log('currentYOffset: ', currentYOffset);
+          
+          let newXOffset = currentXOffset - 60;
+          
+          return `${newXOffset}px ${currentYOffset}px`;
+        });
       
       
       // Also update the word to guess if they guessed one of the hidden letters 
@@ -272,6 +284,7 @@ const app = {
     
     function _handleCorrectAnswer(guessedLetter) {
       console.log('_handleCorrectAnswer');
+      app.gameState.lettersInWordToGuess[guessedLetter].guessed = true;
       _updateLetters(guessedLetter, true);
       
       // Check and see if they won 
@@ -307,8 +320,12 @@ const app = {
      */     
     function _gameOver(victoryFlag) {
       console.log('_gameOver', victoryFlag);
-      
-      
+      if (victoryFlag) {
+        console.log('YOU ARE VICTORIOUS');
+      } else {
+        console.log('YOU WERE DEFEATED');
+      }
+      app.controller.initialize();
     }
     
     
