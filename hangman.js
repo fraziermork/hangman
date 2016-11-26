@@ -18,7 +18,7 @@ const app = {
     })(), 
     
       // Data only relevant for drawing to the page 
-    spriteIncrement:             135, 
+    ninjaSpriteIncrement:        135, 
     answerOptionSpriteIncrement: 120, 
     answerOptionsLetterHeight:   60,
     lanternRodWidth:             866, 
@@ -60,6 +60,7 @@ const app = {
       _drawAnswerOptionLetters();
       _drawWordToGuess();
       $('.gate').css('top', '0px');
+      $('#ninja-sprite').css('background-position', '0px 0px');
     }
     
     
@@ -208,7 +209,6 @@ const app = {
       
       for (let i = 0; i < app.gameState.wordToGuess.length; i++) {
         let xPxOffset = startXPxOffset + app.data.lanternWidth * i;
-        // let yPxOffset = 0;
         
         $(`<li class="lantern sprite" data-index="${i}"></li>`)
           .appendTo($lanternHolder)
@@ -323,7 +323,7 @@ const app = {
       console.log('_handleWrongAnswer');
       app.gameState.numWrongGuesses++;
       _updateLetters(guessedLetter, false);
-      
+      _showNextPartOfNinja();
       // Check and see if they lost 
       if (app.gameState.numWrongGuesses === app.data.numGuessesAllowed) {
         _gameOver(false);
@@ -354,18 +354,15 @@ const app = {
       
       let gateIncrement = Math.floor(app.data.gateHeight / app.gameState.wordToGuess.length);
       $('.gate').css('top', `+=${gateIncrement}`);
-      
-      // $('.gate').css('top', function() {
-      //   // return $(this).css('top')
-      //   `${gateIncrement}px`
-      // });
     }
     
 
     
     function _showNextPartOfNinja() {
-      console.log('_animateNinja');
+      console.log('_showNextPartOfNinja');
+      let backgroundPosition = app.gameState.numWrongGuesses * app.data.ninjaSpriteIncrement;
       
+      $('#ninja-sprite').css('background-position', `-${backgroundPosition}px 0px`);
       // app.gameState.numWrongGuesses
     }
     
