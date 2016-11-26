@@ -20,10 +20,13 @@ const app = {
       // Data only relevant for drawing to the page 
     ninjaSpriteIncrement:        135, 
     answerOptionSpriteIncrement: 120, 
+    sideLanternBkgdWidth:        118,
     answerOptionsLetterHeight:   60,
     lanternRodWidth:             866, 
     lanternWidth:                98, 
-    gateHeight:                  200,         
+    gateHeight:                  200,
+    flickerInterval:             10000, 
+    flickerDuration:             100,
     answerLetterListId:          '#answer-letter-list', 
     
     // Classes to be applied to letters in the answer options keyboard to show whether they were correct or wrong
@@ -43,6 +46,7 @@ const app = {
       initialize, 
       handleLetterClick,
       attachEventHandlers,
+      flickerSideLanterns,
     };
     
     // ////////////////////////////////////////////////////////////////////////////
@@ -89,6 +93,26 @@ const app = {
       if (!event.target.dataset.letter) return;
       
       _checkAnswer(event.target.dataset.letter);
+    }
+    
+    function flickerSideLanterns() {
+      console.log('flickerSideLanterns');
+      _flicker($('#left-light-holder .side-light-flicker'));
+      _flicker($('#right-light-holder .side-light-flicker'));
+      
+      function _flicker($sideLight) {
+        $sideLight.css('background-position', '118px 0px');
+        window.setTimeout(() => {
+          
+          let newXOffset = ((Math.round(Math.random()) * -2)) * app.data.sideLanternBkgdWidth;
+          // console.log('newXOffset: ', newXOffset);
+          $sideLight.css('background-position', `${newXOffset}px 0px`);
+          
+          let newTimeout = Math.floor(Math.random() * app.data.flickerInterval);
+          // console.log('newTimeout: ', newTimeout);
+          window.setTimeout(_flicker, newTimeout, $sideLight);
+        }, app.data.flickerDuration);
+      }
     }
     
     
@@ -349,6 +373,13 @@ const app = {
     }
     
     
+    
+    
+    /**    
+     * _incrementGate - This moves the gate down to block the ninja on correct answers
+     *      
+     * @return {type}  description     
+     */     
     function _incrementGate() {
       console.log('_incrementGate');
       
@@ -357,15 +388,19 @@ const app = {
     }
     
 
+      
     
+    /**    
+     * _showNextPartOfNinja - This adds an appendage to the ninja on incorrect answers
+     *      
+     * @return {type}  description     
+     */     
     function _showNextPartOfNinja() {
       console.log('_showNextPartOfNinja');
       let backgroundPosition = app.gameState.numWrongGuesses * app.data.ninjaSpriteIncrement;
       
       $('#ninja-sprite').css('background-position', `-${backgroundPosition}px 0px`);
-      // app.gameState.numWrongGuesses
-    }
-    
+    }  
     
   })(),
   
@@ -375,3 +410,4 @@ const app = {
 
 app.controller.initialize();
 app.controller.attachEventHandlers();
+app.controller.flickerSideLanterns();
