@@ -126,6 +126,7 @@
   height: 155px;
   margin: 0px;
   display: inline-block;
+  top: 302px;
 }
 .side-light-flicker {
   z-index: 2;
@@ -142,11 +143,9 @@
 }
 #left-light-holder {
   left: 20px;
-  top: 320px;
 }
 #right-light-holder {
   left: 745px;
-  top: 320px;
 }
 
 
