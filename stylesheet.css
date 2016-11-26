@@ -74,6 +74,10 @@
   background-clip:  border-box;
 }
 
+.is-clickable {
+  cursor: pointer;
+}
+
 .answer-letter-list {
   list-style-type: none;
   padding:         0 122px;

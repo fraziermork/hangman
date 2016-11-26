@@ -25,7 +25,7 @@ const app = {
     lanternRodWidth:             866, 
     lanternWidth:                98, 
     gateHeight:                  200,
-    flickerInterval:             10000, 
+    flickerInterval:             3000, 
     flickerDuration:             100,
     answerLetterListId:          '#answer-letter-list', 
     
@@ -93,10 +93,11 @@ const app = {
       _flicker($('#right-light-holder .side-light-flicker'));
       
       function _flicker($sideLight) {
-        $sideLight.css('background-position', '118px 0px');
+        let newXOffset = ((Math.round(Math.random()) * -2)) * app.data.sideLanternBkgdWidth;
+        $sideLight.css('background-position', `${newXOffset}px 0px`);
+        
         window.setTimeout(() => {
-          let newXOffset = ((Math.round(Math.random()) * -2)) * app.data.sideLanternBkgdWidth;
-          $sideLight.css('background-position', `${newXOffset}px 0px`);
+          $sideLight.css('background-position', '-118px 0px');
           let newTimeout = Math.floor(Math.random() * app.data.flickerInterval);
           window.setTimeout(_flicker, newTimeout, $sideLight);
         }, app.data.flickerDuration);
