@@ -3,62 +3,37 @@
   <head>
     <meta charset="utf-8">
     <title>Stop the ninja!</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script type="text/javascript" src="hangman.js"></script>
     <link rel="stylesheet" type="text/css" href="stylesheet.css"/>
     <link rel="stylesheet" type="text/css" href="normalize.css"/>
   </head>
 
   <body>
-    <header>
-
-    </header>
-
     <main>
       <div class="game-holder">
         <img src="img/TITLE.png" alt="stop the ninja" class="page-title"/>
-        <img class="temple-background" src="img/bkgd_n_steps.png"/>
+        <!-- <img class="temple-background" src="img/bkgd_n_steps.png"/> -->
         <img class="temple-building" src="img/MainTempleBldg.png"/>
         <img class="hanging-rod" src="img/rod.png"/>
-        <div class="lantern-holder" id="lantern-holder"></div>
+        <ul id="lantern-holder" class="lantern-holder"></ul>
         <img class="gate" src="img/Gate.png" />
 
-        <div class="side-light-holder" id="left-light-holder">
+        <div id="left-light-holder" class="side-light-holder">
           <div class="side-light-flicker sprite-div"></div>
           <img class="side-light" src="img/sidelantern.png"/>
         </div>
-        <div class="side-light-holder" id="right-light-holder">
+        
+        <div id="right-light-holder" class="side-light-holder">
           <div class="side-light-flicker sprite-div"></div>
           <img class="side-light" src="img/sidelantern.png"/>
         </div>
 
-        <div class="sprite-div" id="ninja-sprite"></div>
+        <div id="ninja-sprite" class="sprite-div"></div>
 
-        <div class="letter-row" id="top-letter-row"></div>
-        <div class="letter-row" id="bottom-letter-row"></div>
+        <ul id="answer-letter-list" class="answer-letter-list"></ul>
       </div>
-      <!-- <button id="test-button">Test the sprite</button> -->
-
-
-      <!-- <div id="wordHolder" class="wordHolder">
-        <h1>Guess this word:</h1>
-        <div id="wordDisplay" class="wordDisplay"></div>
-      </div> -->
-
-      <!-- <div class = "hangmanSpriteHolder">
-        <img src="hangman.png" id="hangmanSprite" class="hangmanSprite"/>
-      </div> -->
-
-      <!-- <br/> -->
-
-      <!-- <div id="letterChoiceHolder">
-        <div id="topRow"></div>
-        <div id="botRow"></div>
-      </div> -->
     </main>
-    <footer></footer>
-    <!-- <div id='testDiv'></div>
-    <button>Test this stuff</button> -->
-
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script type="text/javascript" src="hangman.js"></script>
   </body>
 </html>
