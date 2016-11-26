@@ -59,7 +59,6 @@ const app = {
      *         
      */     
     function initialize() {
-      console.log('initialize');
       _initializeGameState();
       _drawAnswerOptionLetters();
       _drawWordToGuess();
@@ -73,7 +72,6 @@ const app = {
      * attachEventHandlers - Attaches event handlers to appropriate elements--only runs once on page load
      */     
     function attachEventHandlers() {
-      console.log('attachEventHandlers');
       $(app.data.answerLetterListId).on('click', app.controller.handleLetterClick);
     }
     
@@ -85,31 +83,21 @@ const app = {
      * @param  {object} event The click event object          
      */     
     function handleLetterClick(event) {
-      console.log('handleLetterClick ', event.target.dataset.letter, event);
-      console.log('this: ', this);
-      
-      
       // Break out if ul clicked, not an li 
       if (!event.target.dataset.letter) return;
-      
       _checkAnswer(event.target.dataset.letter);
     }
     
     function flickerSideLanterns() {
-      console.log('flickerSideLanterns');
       _flicker($('#left-light-holder .side-light-flicker'));
       _flicker($('#right-light-holder .side-light-flicker'));
       
       function _flicker($sideLight) {
         $sideLight.css('background-position', '118px 0px');
         window.setTimeout(() => {
-          
           let newXOffset = ((Math.round(Math.random()) * -2)) * app.data.sideLanternBkgdWidth;
-          // console.log('newXOffset: ', newXOffset);
           $sideLight.css('background-position', `${newXOffset}px 0px`);
-          
           let newTimeout = Math.floor(Math.random() * app.data.flickerInterval);
-          // console.log('newTimeout: ', newTimeout);
           window.setTimeout(_flicker, newTimeout, $sideLight);
         }, app.data.flickerDuration);
       }
@@ -127,7 +115,6 @@ const app = {
      * @return {object} The new gameState      
      */     
     function _initializeGameState() {
-      console.log('_initializeGameState');
       let wordToGuess = _generateWordToGuess();
       app.gameState = {
         wordToGuess,
@@ -149,7 +136,7 @@ const app = {
               }
               return acc;
             }, {});
-          console.log('lettersInWordToGuess: ', lettersInWordToGuess);  
+    
           return lettersInWordToGuess;
         })(),
       };
@@ -163,7 +150,6 @@ const app = {
      * @return {string}  The word that the user will be trying to guess.       
      */     
     function _generateWordToGuess() {
-      console.log('_generateWordToGuess');
       let wordToGuess = _generateRandomValue(app.data.possibleWordsToGuess, app.gameState.wordsAlreadyGuessed);
       return wordToGuess;
     }
@@ -177,13 +163,11 @@ const app = {
      * @return {*}                                 The chosen value from arrayToGetValueFrom
      */     
     function _generateRandomValue(arrayToGetValueFrom, arrayToCheckForDuplicates = []) {
-      console.log('_generateRandomValue');
       let randomValue = null;
       while (!randomValue || arrayToCheckForDuplicates.indexOf(randomValue) !== -1) {
         let randomIndex = Math.floor(Math.random() * arrayToGetValueFrom.length);
         randomValue = arrayToGetValueFrom[randomIndex];
       }
-      console.log('randomValue: ', randomValue);
       arrayToCheckForDuplicates.push(randomValue);
       return randomValue;
     }
@@ -196,18 +180,11 @@ const app = {
      *          
      */     
     function _drawAnswerOptionLetters() {
-      console.log('_drawAnswerOptionLetters');
       const $answerLetterList = $(app.data.answerLetterListId);
-      console.log($answerLetterList);
       $answerLetterList.empty();
-      
-      console.log('app.data.letterList.length: ', app.data.letterList.length);
-      
       app.data.letterList.forEach((letter, i) => {
         let xPxOffset = -i * app.data.answerOptionSpriteIncrement;
         let yPxOffset = app.data.answerOptionsLetterHeight * Math.floor(i / (app.data.letterList.length / 2));
-        
-        // Create 
         $(`<li class="sprite sprite-letter is-clickable" data-letter="${letter}"></li>`)
           .appendTo($answerLetterList)  
           .css('background-position', `${xPxOffset}px ${yPxOffset}px`);
@@ -224,7 +201,7 @@ const app = {
      *      
      */     
     function _drawWordToGuess() {
-      console.log('_drawWordToGuess');
+
       const $lanternHolder = $('#lantern-holder');
       $lanternHolder.empty();
       
@@ -259,8 +236,8 @@ const app = {
         .css('background-position', function() {
           let currentBackgroundPosition = $(this).css('background-position');
           let [currentXOffset, currentYOffset] = currentBackgroundPosition.replace(/px/g, '').split(' ');
-          console.log('currentXOffset: ', currentXOffset);
-          console.log('currentYOffset: ', currentYOffset);
+    
+    
           
           let newXOffset = currentXOffset - 60;
           
@@ -272,7 +249,7 @@ const app = {
       if (correctFlag) {
         // Update the lanterns 
         app.gameState.lettersInWordToGuess[guessedLetter].indices.forEach((index) => {
-          console.log('index: ', index);
+    
           $lanterns
             .filter(`[data-index="${index}"]`)
             .css('background-position', '0px 0px')
@@ -289,22 +266,16 @@ const app = {
      * @return {Boolean}               Whether the letter was correct or not      
      */     
     function _checkAnswer(guessedLetter) {
-      console.log('checkAnswer', guessedLetter);
-      
       // Don't do anything if they've already guessed that letter
       if (app.gameState.guessedLetters.indexOf(guessedLetter) !== -1) {
-        console.log(`Letter ${guessedLetter} has already been guessed.`);
         return;
       }
-      
       app.gameState.guessedLetters.push(guessedLetter);
       
       // handle correct or incorrect answers 
       if (app.gameState.wordToGuess.includes(guessedLetter)) {
-        console.log(`Letter ${guessedLetter} was correct.`);
         return _handleCorrectAnswer(guessedLetter);
       } 
-
       return _handleWrongAnswer(guessedLetter);
     }
     
@@ -317,7 +288,6 @@ const app = {
      * @param  {string} guessedLetter The letter the user guessed     
      */     
     function _handleCorrectAnswer(guessedLetter) {
-      console.log('_handleCorrectAnswer');
       app.gameState.lettersInWordToGuess[guessedLetter].guessed = true;
       _updateLetters(guessedLetter, true);
       _incrementGate();
@@ -329,7 +299,7 @@ const app = {
           }
           return true;
         }, true);
-      
+        
       if (allLettersGuessed) {
         _gameOver(true);
       }
@@ -344,10 +314,10 @@ const app = {
      * @param  {string} guessedLetter The letter the user guessed     
      */     
     function _handleWrongAnswer(guessedLetter) {
-      console.log('_handleWrongAnswer');
       app.gameState.numWrongGuesses++;
       _updateLetters(guessedLetter, false);
       _showNextPartOfNinja();
+      
       // Check and see if they lost 
       if (app.gameState.numWrongGuesses === app.data.numGuessesAllowed) {
         _gameOver(false);
@@ -360,8 +330,6 @@ const app = {
      * @param  {Boolean} victoryFlag Whether the user correctly guessed the answer or not       
      */     
     function _gameOver(victoryFlag) {
-      console.log('_gameOver', victoryFlag);
-      
       // The setTimeout needed to get the letter to update before the new game starts 
       window.setTimeout(() => {
         let userPrompt = victoryFlag ? 'Great job! Play again?' : `Sorry, the word was ${app.gameState.wordToGuess}. Play again?`;
@@ -381,8 +349,6 @@ const app = {
      * @return {type}  description     
      */     
     function _incrementGate() {
-      console.log('_incrementGate');
-      
       let gateIncrement = Math.floor(app.data.gateHeight / app.gameState.wordToGuess.length);
       $('.gate').css('top', `+=${gateIncrement}`);
     }
@@ -396,9 +362,7 @@ const app = {
      * @return {type}  description     
      */     
     function _showNextPartOfNinja() {
-      console.log('_showNextPartOfNinja');
       let backgroundPosition = app.gameState.numWrongGuesses * app.data.ninjaSpriteIncrement;
-      
       $('#ninja-sprite').css('background-position', `-${backgroundPosition}px 0px`);
     }  
     
